@@ -29,7 +29,7 @@ const SchemaComment = new Schema<IComment>({
     },
     product: {
         type: SchemaTypes.ObjectId,
-        ref : 'product',
+        ref : 'Product',
         required: true
     },
 }, { timestamps: true });
