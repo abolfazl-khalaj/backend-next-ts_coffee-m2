@@ -6,3 +6,5 @@
  start : 2024/12/30  =>  1403/10/10
 
  end : soon ..
+
+next js + typescript 
