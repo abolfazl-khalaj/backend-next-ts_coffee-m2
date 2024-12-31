@@ -5,7 +5,18 @@ import UserModel from '@/model/User'
 import { log } from "console";
 import {generateToken, hashedPassword, verifyPassword} from '@/configs/auth'
 import { emit } from "process";
-import { DataUser } from "../../../../type/DataUser.type";
+
+export interface DataUser {
+    username:string,
+    phone : number ,
+    email : string ,
+    role? : {
+        type : String,
+        default : 'USER'
+    } ,
+    password ?: string,
+}
+
 
 interface DataRequestBody {
     username:string,

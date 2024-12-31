@@ -1,21 +1,24 @@
 import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
-import { ICommentProduct } from '@/type/Comment.type';
+import { ICommentProduct } from './Comment';
 
-// تعریف تایپ محصول
-interface IProduct extends Document {
-  title: string;
+export interface IProduct extends Document {
+  name: string;
+  shortDescription: string
   description: string;
   price: number;
-  score: number;
+  weight:number
+  suiTableFor:string[]
+  smell:string
+  tags: string[]
+  score ?: number;
   img: string;
   isAvailable: boolean;
   comments: ICommentProduct[];
 }
 
-// تعریف اسکیمای محصول
 const SchemaProduct = new Schema<IProduct>(
   {
-    title: {
+    name: {
       type: SchemaTypes.String,
       minLength: 3,
       required: true,
@@ -28,9 +31,25 @@ const SchemaProduct = new Schema<IProduct>(
       type: SchemaTypes.Number,
       required: true,
     },
+    weight : {
+      type: SchemaTypes.Number ,
+      required: true
+    },
+    suiTableFor: {
+      type : [SchemaTypes.String],
+      required: true
+    },
+    smell : {
+      type: SchemaTypes.String,
+      required: true
+    },
+    tags: {
+      type: [SchemaTypes.String],
+      required: true
+    },
     score: {
       type: SchemaTypes.Number,
-      required: true,
+      default: 5,
     },
     img: {
       type: SchemaTypes.String,

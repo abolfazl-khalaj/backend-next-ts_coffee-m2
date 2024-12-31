@@ -5,7 +5,7 @@ import UserModel from '@/model/User'
 import { log } from "console";
 import {generateToken, hashedPassword} from '@/configs/auth'
 import { emit } from "process";
-import { DataUser } from "../../../../type/DataUser.type";
+import { DataUser } from "../login/route";
 
 
 

@@ -1,5 +1,12 @@
-import { ICommentProduct } from '@/type/Comment.type';
 import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
+
+export interface ICommentProduct extends Document {
+    username: string;
+    description: string;
+    email: string;
+    score: number;
+    product : string | undefined
+}
 
 const SchemaComment = new Schema<ICommentProduct>({
     username: {
@@ -27,6 +34,6 @@ const SchemaComment = new Schema<ICommentProduct>({
     },
 }, { timestamps: true });
 
-const UserModel = mongoose.models.Comment || mongoose.model<ICommentProduct>('Comment', SchemaComment);
+const CommentModel = mongoose.models.Comment || mongoose.model<ICommentProduct>('Comment', SchemaComment);
 
-export default UserModel;
+export default CommentModel;
