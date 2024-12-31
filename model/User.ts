@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
+import { CommentProduct } from './Comment';
 
-interface IUser extends Document {
+export interface IUser extends Document {
     username: string;
     phone: string;
     email?: string;
@@ -8,6 +9,7 @@ interface IUser extends Document {
     role: 'USER' | 'ADMIN' | 'SUPPORT';
     token?: string;
     refreshToken?: string;
+    comments : CommentProduct[]
 }
 
 const SchemaUser = new Schema<IUser>({
@@ -43,7 +45,13 @@ const SchemaUser = new Schema<IUser>({
     },
     refreshToken: {
         type: SchemaTypes.String
-    }
+    },
+    comments :[
+        {
+            type: SchemaTypes.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 }, { timestamps: true });
 
 SchemaUser.post('save', function(error: any, doc: any, next: any) {

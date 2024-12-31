@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
-import { ICommentProduct } from './Comment';
+import { CommentProduct } from './Comment';
 
-export interface IProduct extends Document {
+export interface ProductType extends Document {
   name: string;
   shortDescription: string
   description: string;
@@ -13,10 +13,10 @@ export interface IProduct extends Document {
   score ?: number;
   img: string;
   isAvailable: boolean;
-  comments: ICommentProduct[];
+  comments: CommentProduct[];
 }
 
-const SchemaProduct = new Schema<IProduct>(
+const SchemaProduct = new Schema<ProductType>(
   {
     name: {
       type: SchemaTypes.String,
@@ -70,6 +70,6 @@ const SchemaProduct = new Schema<IProduct>(
 );
 
 // تعریف مدل محصول
-const ProductModel = mongoose.models.Product || mongoose.model<IProduct>('Product', SchemaProduct);
+const ProductModel = mongoose.models.Product || mongoose.model<ProductType>('Product', SchemaProduct);
 
 export default ProductModel;

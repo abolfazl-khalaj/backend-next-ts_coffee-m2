@@ -1,6 +1,7 @@
+import { verifyToken } from "@/configs/auth"
 import connectedDB from "@/configs/db"
 import CommentModel from "@/model/Comment"
-import ProductModel, { IProduct } from "@/model/Product"
+import ProductModel, { ProductType } from "@/model/Product"
 import Joi from "joi"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -10,9 +11,19 @@ export async function POST(req:NextRequest):Promise<NextResponse> {
 
 
     try{
+        const token:string | undefined = req.cookies.get('token')?.value;
+        
+        if (!token) {
+        return NextResponse.json({ message: 'Authorization token is required' }, { status: 401 });
+        }
+
+
+        const very = verifyToken(token)
+
+         
 
         connectedDB()
-        const body : IProduct = await req.json()
+        const body : ProductType = await req.json()
 
         const schema = Joi.object({
             name: Joi.string().trim().required(),
@@ -38,7 +49,7 @@ export async function POST(req:NextRequest):Promise<NextResponse> {
 
         await ProductModel.create(body)
 
-        return NextResponse.json({message : 'kone laget'})
+        return NextResponse.json({message : 'create product successfully ..'},{status : 201})
 
     }catch(error){
 
@@ -55,7 +66,7 @@ export async function GET(req:NextRequest):Promise<NextResponse> {
     try{
         await connectedDB()
 
-        const products = await ProductModel.find({}).populate({
+        const products = await ProductModel.find({},'-__v').populate({
             path: 'comments',
             model: CommentModel,
           });

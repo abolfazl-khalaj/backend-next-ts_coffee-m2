@@ -15,7 +15,7 @@ export interface DataUser {
         default : 'USER'
     } ,
     password ?: string,
-}
+}                   
 
 
 interface DataRequestBody {
