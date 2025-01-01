@@ -17,18 +17,15 @@ export interface LikedType {
 
 const SchemaLiked = new mongoose.Schema({
     
-    user: [
-        {
-            type: SchemaTypes.ObjectId , 
-            ref : 'User'
-        }
-    ],
-    product: [
-        {
-            type : SchemaTypes.ObjectId ,
-            ref : 'Product'
-        }
-    ]
+    user: {
+        type: SchemaTypes.ObjectId , 
+        ref : 'User'
+    },
+    product: {
+        type: SchemaTypes.ObjectId ,
+        ref: 'Product'
+    }
+    
 
 })
 
