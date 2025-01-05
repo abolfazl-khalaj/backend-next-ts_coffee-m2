@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
 import { CommentProduct } from './Comment';
+import { TicketType } from './Ticket';
 
 export interface IUser extends Document {
     username: string;
@@ -9,7 +10,8 @@ export interface IUser extends Document {
     role: 'USER' | 'ADMIN' | 'SUPPORT';
     token?: string;
     refreshToken?: string;
-    comments : CommentProduct[]
+    comments : CommentProduct[],
+    tickets? : TicketType[]
 }
 
 const SchemaUser = new Schema<IUser>({
@@ -50,6 +52,12 @@ const SchemaUser = new Schema<IUser>({
         {
             type: SchemaTypes.ObjectId,
             ref: 'Comment'
+        }
+    ],
+    tickets :[
+        {
+            type: SchemaTypes.ObjectId,
+            ref: 'Ticket'
         }
     ]
 }, { timestamps: true });
