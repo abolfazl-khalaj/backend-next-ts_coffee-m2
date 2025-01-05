@@ -9,7 +9,8 @@ export interface CommentProduct extends Document {
     email: string;
     score: number;
     product : ProductType[],
-user : IUser[],
+    user : IUser[],
+    isAccept : boolean
 }
 
 const SchemaComment = new Schema<CommentProduct>({
@@ -38,7 +39,12 @@ const SchemaComment = new Schema<CommentProduct>({
     user: [{
         type: SchemaTypes.String,
         required : true
-    }]
+    }],
+    isAccept :{
+        type: SchemaTypes.Boolean,
+        default : false ,
+        required: true
+    }
 }, { timestamps: true });
 
 const CommentModel = mongoose.models.Comment || mongoose.model<CommentProduct>('Comment', SchemaComment);
