@@ -27,7 +27,7 @@ const SchemaLiked = new mongoose.Schema({
     }
     
 
-})
+},{timestamps:true})
 
 
 const LikedModel = mongoose.models.Liked || mongoose.model<LikedType>('Liked' ,SchemaLiked);

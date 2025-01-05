@@ -1,3 +1,8 @@
+import { DataUser } from "@/app/api/auth/login/route"
+import connectedDB from "./db"
+import { cookies } from "next/headers"
+import UserModel from "@/model/User"
+
 const { compare , hash } = require("bcryptjs") 
 const { sign , verify } = require('jsonwebtoken')
 
@@ -19,7 +24,7 @@ const generateToken = (data:string):string => {
     return token 
 }
 
-const verifyToken = (token:string):string | unknown => {
+const verifyToken = (token:string):DataUser | unknown | string => {
 
     try{
 
@@ -38,11 +43,25 @@ const refreshToken = (data:string): string => {
     return token 
 }
 
-
+const authUser = async () => {
+    connectedDB();
+    const token = (await cookies()).get("token");
+    let user = null;
+  
+    if (token) {
+      const tokenPayload = verifyToken(token.value);
+      if (tokenPayload) {
+        user = await UserModel.findOne({ email: (tokenPayload as DataUser).email });
+      }
+    }
+  
+    return user;
+  };
 export {
     hashedPassword,
     verifyPassword,
     generateToken,
     verifyToken,
-    refreshToken
+    refreshToken,
+    authUser
 }
