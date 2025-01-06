@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import  connectDB from '@/configs/db'
 import Joi from "joi";
 import UserModel from '@/model/User'
-import { log } from "console";
 import {generateToken, hashedPassword} from '@/configs/auth'
-import { emit } from "process";
 import { DataUser } from "../login/route";
+import { headers } from "next/headers";
 
 
 
@@ -17,7 +16,7 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
         const body : DataUser = await req.json()
 
         const schema = Joi.object({
-            username: Joi.string().trim().required(),
+            name: Joi.string().trim().required(),
             phone: Joi.string()
             .pattern(/^(09)(1[0-9]|2[0-2]|3[0-9]|9[0-9])-?[0-9]{3}-?[0-9]{4}$/).required(),
             email: Joi.string().email().required(),
@@ -30,13 +29,13 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
             return NextResponse.json({messageError : error.details[0].message},{status:402})
         }
 
-        const {username,phone,email,password,role} = body
+        const {name,phone,email,password,role} = await body
 
         const passwordHashed = await hashedPassword(password as string)
-        const token = generateToken(email)
+        const token = await generateToken(email)
 
         const newUser= {
-            username,
+            name,
             phone,
             email,
             password:passwordHashed,
@@ -46,7 +45,10 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
 
         await UserModel.create(newUser)
         
-        return NextResponse.json({message:"register user successfully ..."},{status:201})
+        return NextResponse.json({message:"register user successfully ..."},    {
+            status: 201,
+            headers: { "Set-Cookie": `token=${token};path=/;httpOnly=true` },
+          })
 
     }catch (err : any){
 

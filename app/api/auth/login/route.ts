@@ -7,7 +7,7 @@ import {generateToken, hashedPassword, verifyPassword} from '@/configs/auth'
 import { emit } from "process";
 
 export interface DataUser {
-    username:string,
+    name:string,
     phone : number ,
     email : string ,
     role? : {
@@ -33,7 +33,7 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
         const body : DataRequestBody = await req.json()
 
         const schema = Joi.object({
-            username: Joi.alternatives().try(
+            name: Joi.alternatives().try(
                 Joi.string()
                     .pattern(/^(09)(1[0-9]|2[0-2]|3[0-9]|9[0-9])-?[0-9]{3}-?[0-9]{4}$/)
                     .message("Invalid phone number format. Expected Iranian phone number format."),
@@ -69,7 +69,7 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
         }
         
 
-            
+
         
         return NextResponse.json({validUser},
             {

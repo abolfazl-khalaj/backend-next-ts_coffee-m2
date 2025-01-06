@@ -1,4 +1,4 @@
-import { authUser } from "@/configs/auth";
+import authUser from "@/configs/authServer";
 import connectedDB from "@/configs/db";
 import TicketModel, { TicketType } from "@/model/Ticket";
 import UserModel from "@/model/User";
@@ -58,7 +58,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
         const tickets = await TicketModel.find({}).populate({
             path: 'user',
-            model : UserModel,
             select : 'username _id phone email'
         })
 

@@ -81,7 +81,6 @@
 }
 
 .btn_light {
-  color: rgb(109, 109, 109);
   border: 1px solid rgb(214, 214, 214);
   margin-bottom: 3rem;
   cursor: pointer;
@@ -91,8 +90,8 @@
 }
 .btn {
   padding: 0.8rem;
-  cursor: pointer;
   color: white;
+  cursor: pointer;
   font-family: shabnam;
   background-color: rgb(52, 24, 14);
 }

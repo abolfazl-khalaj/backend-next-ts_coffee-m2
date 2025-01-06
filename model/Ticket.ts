@@ -3,10 +3,11 @@ import mongoose, { Document, Schema, SchemaTypes } from 'mongoose';
 
 export interface TicketType extends Document {
   department: string;
+  subDepartment: string ;
   type : string
   title: string;
   description: string;
-  level: string;
+  level: number;
   user : string
 }
 
@@ -15,6 +16,11 @@ const SchemaTicket = new Schema<TicketType>(
     department: {
       type: SchemaTypes.String,
       required: true,
+    },
+    subDepartment: {
+      type: SchemaTypes.String ,
+      ref : 'SubDepartment',
+      required : true 
     },
     type: {
       type: SchemaTypes.String,
@@ -29,11 +35,14 @@ const SchemaTicket = new Schema<TicketType>(
       required: true
     },
     level: {
-      type : SchemaTypes.String,
+      type : SchemaTypes.Number,
+      default : 1 ,
+      enum : [1,2,3] ,
       required: true
     },
     user: {
         type : SchemaTypes.String,
+        ref : 'User' ,
         required : true
     }
   },

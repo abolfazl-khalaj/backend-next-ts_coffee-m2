@@ -20,8 +20,6 @@ export async function POST(req:NextRequest):Promise<NextResponse> {
 
         const very = verifyToken(token)
 
-         
-
         connectedDB()
         const body : ProductType = await req.json()
 

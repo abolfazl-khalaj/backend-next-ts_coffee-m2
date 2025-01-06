@@ -18,23 +18,26 @@ const verifyPassword = async (password:string , hashedPassword:string):Promise<s
 }
 
 const generateToken = (data:string):string => {
-    const token = sign({data},"process.env.SECRETORPRIVATEKEY_TOKEN",{
-        expiresIn : '120s'
+    const token = sign({data},process.env.SECRETORPRIVATEKEY_TOKEN,{
+        expiresIn : '1h'
     })
     return token 
 }
 
-const verifyToken = (token:string):DataUser | unknown | string => {
-
-    try{
-
-        const payload = verify(token , process.env.SECRETORPRIVATEKEY_TOKEN )
-        return payload
-
-    }catch (error){
-        return error
+const verifyToken = async (token: string) => {
+    try {
+        const payload = await verify(token, process.env.SECRETORPRIVATEKEY_TOKEN);
+        return payload;
+        
+    } catch (error: any) {
+        if (error.name === 'TokenExpiredError') {
+            console.log('Token has expired.');
+        } else {
+            console.log('Token verification failed:', error);
+        }
+        return null;
     }
-}
+};
 
 const refreshToken = (data:string): string => {
     const token = sign({data},process.env.SECRETORPRIVATEKEY_REFRESHTOKEN,{
@@ -43,25 +46,11 @@ const refreshToken = (data:string): string => {
     return token 
 }
 
-const authUser = async () => {
-    connectedDB();
-    const token = (await cookies()).get("token");
-    let user = null;
-  
-    if (token) {
-      const tokenPayload = verifyToken(token.value);
-      if (tokenPayload) {
-        user = await UserModel.findOne({ email: (tokenPayload as DataUser).email });
-      }
-    }
-  
-    return user;
-  };
+
 export {
     hashedPassword,
     verifyPassword,
     generateToken,
     verifyToken,
-    refreshToken,
-    authUser
+    refreshToken
 }

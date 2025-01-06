@@ -13,7 +13,7 @@ const ForgotPassword = () => {
               type="text"
               placeholder="ایمیل / شماره موبایل"
             />
-            <button style={{ marginTop: "1rem" ,color:'white'}} className={styles.btn}>
+            <button style={{ marginTop: "1rem" }} className={styles.btn}>
               بازنشانی رمزعبور
             </button>
             <Link href={"/login-register"} className={styles.back_to_login}>

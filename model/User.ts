@@ -3,7 +3,7 @@ import { CommentProduct } from './Comment';
 import { TicketType } from './Ticket';
 
 export interface IUser extends Document {
-    username: string;
+    name: string;
     phone: string;
     email?: string;
     password?: string;
@@ -15,7 +15,7 @@ export interface IUser extends Document {
 }
 
 const SchemaUser = new Schema<IUser>({
-    username: {
+    name: {
         type: SchemaTypes.String,
         minLength: 3,
         required: true, 
