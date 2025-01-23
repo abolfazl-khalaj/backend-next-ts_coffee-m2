@@ -1,4 +1,4 @@
-import { authUser } from "@/configs/auth";
+import authUser  from "@/configs/authServer";
 import connectedDB from "@/configs/db";
 import UserModel from "@/model/User";
 import Joi from "joi";
