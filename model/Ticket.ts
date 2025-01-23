@@ -8,7 +8,9 @@ export interface TicketType extends Document {
   title: string;
   description: string;
   level: number;
-  user : string
+  user : string;
+  hasAnswer?: boolean;
+  idAnswer? : string
 }
 
 const SchemaTicket = new Schema<TicketType>(
@@ -41,9 +43,18 @@ const SchemaTicket = new Schema<TicketType>(
       required: true
     },
     user: {
-        type : SchemaTypes.String,
-        ref : 'User' ,
-        required : true
+      type : SchemaTypes.String,
+      ref : 'User' ,
+      required : true
+    },
+    hasAnswer: {
+      type: SchemaTypes.Boolean,
+      default: false ,
+      required: false
+    },
+    idAnswer: {
+      type: SchemaTypes.String ,
+      required: false
     }
   },
   { timestamps: true }
