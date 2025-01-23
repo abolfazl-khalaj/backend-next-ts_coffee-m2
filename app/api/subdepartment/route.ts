@@ -40,9 +40,9 @@ export async function GET():Promise<NextResponse> {
     
     try {
         await connectedDB()
-        const subDepartment: SubDepartmentType[] = await SubDepartmentModel.find({}).populate('department')
+        const subDepartments: SubDepartmentType[] = await SubDepartmentModel.find({}).populate('department')
 
-        return NextResponse.json({subDepartment})
+        return NextResponse.json({subDepartments})
     } catch (error) {
         return NextResponse.json({message : error})
     }
