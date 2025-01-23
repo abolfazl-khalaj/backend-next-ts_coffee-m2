@@ -5,6 +5,7 @@ import UserModel from '@/model/User'
 import {generateToken, hashedPassword} from '@/configs/auth'
 import { DataUser } from "../login/route";
 import { headers } from "next/headers";
+import BanModel from "@/model/Ban";
 
 
 
@@ -31,6 +32,13 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
 
         const {name,phone,email,password,role} = await body
 
+        const isBanUser = await BanModel.find({
+            $or : [{email: email},{phone:phone}]
+        })
+
+        if(isBanUser){
+            return NextResponse.json({message: 'this is user ban !!!!'})
+        }
         const passwordHashed = await hashedPassword(password as string)
         const token = await generateToken(email)
 
