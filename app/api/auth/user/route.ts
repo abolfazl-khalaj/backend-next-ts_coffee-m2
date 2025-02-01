@@ -53,15 +53,31 @@ export async function PUT(req:NextRequest):Promise<NextResponse> {
         connectedDB()
 
         const body = await req.json()
-        const { userId } = body
+        const { id } = body
 
-        const user = await UserModel.findById(userId)
+        const user = await UserModel.findById(id)
 
-        await UserModel.findByIdAndUpdate(userId , {
+        await UserModel.findByIdAndUpdate(id , {
             $set : {role : user.role == "USER" ? "ADMIN" : "USER"}
         })
 
         return NextResponse.json({message: 'update user successfully ..'})
+    }catch (error){
+        return NextResponse.json({message: error})
+    }
+}
+
+export async function DELETE(req:NextRequest):Promise<NextResponse> {
+    
+    try {
+        connectedDB()
+
+        const body = await req.json()
+        const { id } = body
+
+        await UserModel.findByIdAndDelete(id)
+
+        return NextResponse.json({message: 'delete user successfully ..'})
     }catch (error){
         return NextResponse.json({message: error})
     }
