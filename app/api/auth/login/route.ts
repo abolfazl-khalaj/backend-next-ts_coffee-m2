@@ -5,6 +5,7 @@ import UserModel from '@/model/User'
 import { log } from "console";
 import {generateToken, hashedPassword, verifyPassword} from '@/configs/auth'
 import { emit } from "process";
+import BanModel from "@/model/Ban";
 
 export interface DataUser {
     name:string,
@@ -51,7 +52,17 @@ export async function POST(req:NextRequest):Promise<NextResponse>{
             return NextResponse.json({messageError : error.details[0].message},{status:402})
         }
 
+
+
         const {username,password} : DataRequestBody = body
+
+        const isBanUser = await BanModel.find({
+            $or : [{email: username},{phone:username}]
+        })
+
+        if(isBanUser){
+            return NextResponse.json({message: 'this is user ban !!!!'})
+        }
 
         const validUser : DataUserWithToken[] | undefined = await UserModel.find({
             $or :[ {email:username},{phone:username}]
