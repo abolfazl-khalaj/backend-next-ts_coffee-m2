@@ -46,3 +46,23 @@ export async function POST(req:NextRequest):Promise<NextResponse> {
         return NextResponse.json({message : error},{status : 500})
     }
 }
+
+export async function PUT(req:NextRequest):Promise<NextResponse> {
+    
+    try {
+        connectedDB()
+
+        const body = await req.json()
+        const { userId } = body
+
+        const user = await UserModel.findById(userId)
+
+        await UserModel.findByIdAndUpdate(userId , {
+            $set : {role : user.role == "USER" ? "ADMIN" : "USER"}
+        })
+
+        return NextResponse.json({message: 'update user successfully ..'})
+    }catch (error){
+        return NextResponse.json({message: error})
+    }
+}
