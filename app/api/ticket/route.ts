@@ -48,23 +48,3 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ message: error }, { status: 500 });
   }
 }
-
-
-export async function GET(req: NextRequest): Promise<NextResponse> {
-
-    try {
-        
-        connectedDB()
-
-        const tickets = await TicketModel.find({}).populate({
-            path: 'user',
-            select : 'username _id phone email'
-        })
-
-        return NextResponse.json(tickets)
-
-    } catch (error) {
-        return NextResponse.json({message : error})
-    }
-
-} 

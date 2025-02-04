@@ -13,51 +13,53 @@ export interface TicketType extends Document {
   idAnswer? : string
 }
 
-const SchemaTicket = new Schema<TicketType>(
+const SchemaTicket = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: true,
+    },
+    body: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     department: {
-      type: SchemaTypes.String,
+      type: mongoose.Types.ObjectId,
+      ref: "Department",
       required: true,
     },
     subDepartment: {
-      type: SchemaTypes.String ,
-      ref : 'SubDepartment',
-      required : true 
-    },
-    type: {
-      type: SchemaTypes.String,
+      type: mongoose.Types.ObjectId,
+      ref: "subDepartment",
       required: true,
     },
-    title: {
-      type: SchemaTypes.String,
-      required: true,
-    },
-    description : {
-      type: SchemaTypes.String ,
-      required: true
-    },
-    level: {
-      type : SchemaTypes.Number,
-      default : 1 ,
-      enum : [1,2,3] ,
-      required: true
-    },
-    user: {
-      type : SchemaTypes.String,
-      ref : 'User' ,
-      required : true
+    priority: {
+      type: Number,
+      default: 1,
+      enum: [1, 2, 3],
     },
     hasAnswer: {
-      type: SchemaTypes.Boolean,
-      default: false ,
-      required: false
+      type: Boolean,
+      default: false,
     },
-    idAnswer: {
-      type: SchemaTypes.String ,
-      required: false
-    }
+    isAnswer: {
+      type: Boolean,
+      default: false,
+    },
+    mainTicket: {
+      type: mongoose.Types.ObjectId,
+      ref: "Ticket",
+      required: false,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const TicketModel = mongoose.models.Ticket || mongoose.model<TicketType>('Ticket', SchemaTicket);
