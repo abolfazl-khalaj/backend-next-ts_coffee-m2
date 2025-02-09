@@ -5,7 +5,6 @@ import Joi from "joi";
 import { NextRequest, NextResponse } from "next/server";
 
 
-
 export async function GET(req:NextRequest):Promise<NextResponse> {
     
     try {
@@ -24,7 +23,6 @@ export async function POST(req:NextRequest):Promise<NextResponse> {
     try {
 
         connectedDB()
-
         const body = await req.json()
 
         const schema = Joi.object({
